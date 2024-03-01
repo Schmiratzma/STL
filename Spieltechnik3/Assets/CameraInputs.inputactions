@@ -1,0 +1,90 @@
+{
+    "name": "CameraInputs",
+    "maps": [
+        {
+            "name": "MoveCamera",
+            "id": "86101867-a193-4cf7-9993-4d78531430b8",
+            "actions": [
+                {
+                    "name": "MiddleMouse",
+                    "type": "Button",
+                    "id": "91cee7d6-b624-4fd0-a591-11e7f1b97381",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "55653955-cec8-4753-9564-a132fcf9b703",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MiddleMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "RotateCamera",
+            "id": "008179bb-c4e8-4da2-8b65-858409e77a5d",
+            "actions": [
+                {
+                    "name": "RightMouse",
+                    "type": "Button",
+                    "id": "322db2c8-dd9d-4a32-9606-eb0e066a562b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "574a4c62-ec22-4766-ba1c-55c98a0f78de",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ZoomCamera",
+            "id": "8f2f5cf5-962a-473b-9937-c0ca1742ccb2",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Value",
+                    "id": "deb9c6ba-efda-457e-aa3d-3c0394f05826",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2a392f83-fe7a-4079-82e8-225d7c478ee7",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

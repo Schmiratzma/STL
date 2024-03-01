@@ -1,0 +1,34 @@
+{
+    "name": "UnitINputActions",
+    "maps": [
+        {
+            "name": "MoveCommand",
+            "id": "90818c84-7825-47ec-9c3d-0421ea926fcd",
+            "actions": [
+                {
+                    "name": "move",
+                    "type": "Button",
+                    "id": "bf62eea9-68b8-41ec-b0b0-87c9bbebdd87",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5e0d9870-7445-4365-89af-abebe8e62781",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

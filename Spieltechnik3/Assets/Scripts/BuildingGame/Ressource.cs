@@ -1,0 +1,1 @@
+public enum Ressource { Credits, Minerals}

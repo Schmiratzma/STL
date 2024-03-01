@@ -1,0 +1,52 @@
+using JetBrains.Annotations;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerInventory : MonoBehaviour
+{
+    [SerializeField] private List<InventoryEntry> inventoryEntries;
+
+    public List<InventoryEntry> MyInventoryEntries
+    {
+        get { return inventoryEntries; }
+        set { inventoryEntries = value; }
+    }
+
+    public int GetRessourceAmount(Ressource ressource)
+    {
+        int result = 0;
+        foreach (InventoryEntry entry in inventoryEntries)
+        {
+            if (entry.RessourceType == ressource)
+            {
+                result += entry.amount;
+            }
+        }
+        return result;
+    }
+
+    public void ChangeAmount(Ressource ressource, int amount)
+    {
+        foreach(InventoryEntry entry in inventoryEntries)
+        {
+            if(ressource == entry.RessourceType)
+            {
+                entry.amount += amount;
+                return;
+            }
+        }
+        Debug.LogError("Ressource type not found in PlayerInventory");
+    }
+
+    public void restartInventory(List<InventoryEntry> newInventoryEntries)
+    {
+        if(inventoryEntries == null)
+        {
+            inventoryEntries = new List<InventoryEntry>();
+        }
+        inventoryEntries.Clear();
+        inventoryEntries.AddRange(newInventoryEntries);
+    }
+
+}

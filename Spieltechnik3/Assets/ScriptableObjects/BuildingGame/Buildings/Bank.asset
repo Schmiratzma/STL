@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b508eda34b03413498b6f731645f9159, type: 3}
+  m_Name: Bank
+  m_EditorClassIdentifier: 
+  buildingName: Bank
+  BuildingImage: {fileID: 21300000, guid: c2d448cd0f2907a4aa06c1ba6d3b60e8, type: 3}
+  costs:
+  - resource: 0
+    amount: 10
+  buildingPrefab: {fileID: 5464230577548335420, guid: e48aadfe57d91e1469a98dbcb9a1316d,
+    type: 3}
+  onPlacementEffects:
+  - {fileID: 11400000, guid: 29f97daeb3da22840b620b75d24c83fc, type: 2}

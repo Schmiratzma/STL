@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b7a4f695d9c13d4ab56bf09eba7e687, type: 3}
+  m_Name: Spawn1NormalBot
+  m_EditorClassIdentifier: 
+  unitPrefab: {fileID: -7526726793560744746, guid: 7eaee93b58b131d488dcc1a1cfae10fa,
+    type: 3}
+  Amount: 1

@@ -1,17 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR;
 
+public enum ChunkDirections
+{
+    downLeftback, downCenterback, downRightback,
+    downLeftCenter, downCenterCenter, downRightCenter,
+    downLeftForward, downCenterForward, downRightForward,
+    centerLeftBack, centerCenterBack, centerRightBack,
+    centerLeftCenter, centerCenterCenter, CenterRightCenter,
+    CenterLeftForward, CenterCenterForward, CenterRightForward,
+    upLeftBack, upCenterBack, upRightBack,
+    upLeftCenter, upCenterCenter, upRightCenter,
+    upLeftForward, upCenterForward, upRightForward
+}
+
 public class WorldManager : MonoBehaviour
 {
+    public static WorldManager Instance;
+
     [SerializeField] private Material material;
 
     [SerializeField] public WorldSettings worldSettings;
 
-    [SerializeField] Vector3Int ChunkDimensions;
+    [SerializeField] public Vector3Int ChunkDimensions;
 
     [SerializeField] Vector2 NoiseThresholds;
 
@@ -19,11 +35,29 @@ public class WorldManager : MonoBehaviour
 
     private List<GameObject> meshes = new List<GameObject>();
 
-    private MarchingCubes marching;
+    public MarchingCubes marching;
+
+    [SerializeField] public Chunk ChunkPrefab;
+
+    public Dictionary<ChunkDirections, Chunk> Chunks;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        Chunks = new Dictionary<ChunkDirections, Chunk>();
         worldSettings.MakeNoise();
 
         //mby also get noise idk yet
@@ -37,13 +71,20 @@ public class WorldManager : MonoBehaviour
         //GenerateChunk(Vector3.back * (ChunkDimensions.z-1));
         //GenerateChunk(Vector3.left * (ChunkDimensions.x-1));
         //GenerateChunk(Vector3.right * (ChunkDimensions.x-1));
-        for(int x= -1; x <= 1; x++)
+        int chungus = 0;
+        for (int y = -1; y <= 1; y++)
         {
-            for(int y= -1; y <= 1; y++)
+            for (int z = -1; z <= 1; z++)
             {
-                for(int z= -1; z <= 1; z++)
+                for (int x = -1; x <= 1; x++)
                 {
-                    GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)));
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)));
+
+                    Chunks.Add((ChunkDirections)chungus, newChunk);
+                    Debug.Log((ChunkDirections)chungus);
+                    chungus++;  
+                    //GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)));
                 }
             }
         }
@@ -64,11 +105,11 @@ public class WorldManager : MonoBehaviour
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    float u = Mathf.Lerp(-width/2, width/2, x / ((float)width));
-                    float v = Mathf.Lerp(-height/2, height/2, y / ((float)height));
-                    float w = Mathf.Lerp(-depth/2, depth/ 2, z / ((float)depth));
+                    float u = Mathf.Lerp(-width / 2, width / 2, x / ((float)width));
+                    float v = Mathf.Lerp(-height / 2, height / 2, y / ((float)height));
+                    float w = Mathf.Lerp(-depth / 2, depth / 2, z / ((float)depth));
 
-                    voxels[x, y, z] = worldSettings.GetNoise(new Vector3(u, v, w)+centerPosition);
+                    voxels[x, y, z] = worldSettings.GetNoise(new Vector3(u, v, w) + centerPosition);
                 }
             }
         }
@@ -76,7 +117,7 @@ public class WorldManager : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
-        marching.Generate(voxels.Voxels, vertices, triangles);      
+        marching.Generate(voxels.Voxels, vertices, triangles);
         CreateMesh32(vertices, triangles, centerPosition);
     }
 

@@ -45,6 +45,13 @@ public class BuildingGameCameraController: MonoBehaviour
         zoomCameraIAR.action.performed += ZoomCamera;
     }
 
+    private void OnDestroy()
+    {
+        moveCameraIAR.action.performed -= MoveCamera;
+        rotateCameraIAR.action.performed -= RotateCamera;
+        zoomCameraIAR.action.performed -= ZoomCamera;
+    }
+
     private void ZoomCamera(InputAction.CallbackContext context)
     {
         zoomCamCoroutine = StartCoroutine(zoomCameraCoroutine());

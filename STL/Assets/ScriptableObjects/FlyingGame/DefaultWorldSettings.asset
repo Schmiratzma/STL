@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DefaultWorldSettings
   m_EditorClassIdentifier: 
   useCustomSeed: 0
-  seed: 0
-  frequency: 1
-  noiseType: 0
+  seed: 1960
+  frequency: 0.05
+  noiseType: 1
   useFractal: 0
   fractalType: 0
   Octaves: 0

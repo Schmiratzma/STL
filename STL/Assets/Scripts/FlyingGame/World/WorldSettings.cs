@@ -41,6 +41,7 @@ public class WorldSettings : ScriptableObject
 
     public void MakeNoise()
     {
+        noise = new FastNoiseLite();
         noise.SetNoiseType(noiseType);
         noise.SetFrequency(frequency);
         if (!useCustomSeed)

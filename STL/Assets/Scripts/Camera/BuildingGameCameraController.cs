@@ -21,7 +21,8 @@ public class BuildingGameCameraController: MonoBehaviour
 
     [SerializeField] float zoomSpeed;
 
-    [SerializeField] Vector2 Bounds;
+    [SerializeField] Vector2 xBounds;
+    [SerializeField] Vector2 zBounds;
 
     Camera cam;
     Plane groundPlane;
@@ -84,7 +85,7 @@ public class BuildingGameCameraController: MonoBehaviour
             Vector3 delta = previousPointerWorldPos - currentPointerWorldPos;
 
             transform.position += delta;
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, Bounds.x, Bounds.y), transform.position.y, Mathf.Clamp(transform.position.z, Bounds.x, Bounds.y));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, xBounds.x, xBounds.y), transform.position.y, Mathf.Clamp(transform.position.z, zBounds.x, zBounds.y));
             previousPointerPos = currentPointerPos;
             yield return null;
         }

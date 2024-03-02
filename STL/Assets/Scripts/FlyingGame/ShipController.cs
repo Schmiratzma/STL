@@ -11,15 +11,20 @@ public class ShipController : MonoBehaviour
     [SerializeField] float flySpeed;
     Rigidbody rb;
 
+    Vector3 chunkDimensions;
+
     // Start is called before the first frame update
     void Start()
     {
+        chunkDimensions = WorldManager.Instance.ChunkDimensions;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        WorldManager.Instance.UpdateChunks(transform.position);
+
         if (Input.GetKey(KeyCode.W))
         {
             // pitch up

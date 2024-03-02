@@ -15,6 +15,9 @@ public class UnitControler : MonoBehaviour
 
     public event Action<Vector3> onUnitsCommanded;
 
+    public List<Unit> units;
+    public List<Unit> selectedUnits;
+
     private void Awake()
     {
         if(Instance == null)

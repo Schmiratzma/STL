@@ -7,7 +7,7 @@ public class Chunk : MonoBehaviour
 {
     [SerializeField] Station StationPrefab;
 
-    public void GenerateChunk(Vector3 centerPosition)
+    public void GenerateChunk(Vector3 centerPosition,bool generateStation)
     {
         int width =  WorldManager.Instance.ChunkDimensions.x;
         int height = WorldManager.Instance.ChunkDimensions.y;
@@ -36,6 +36,11 @@ public class Chunk : MonoBehaviour
 
         WorldManager.Instance.marching.Generate(voxels.Voxels, vertices, triangles);
         CreateMesh32(vertices, triangles, centerPosition);
+        if (generateStation)
+        {
+            Instantiate(StationPrefab, centerPosition, Quaternion.identity, transform);
+        }
+        
     }
 
     private void CreateMesh32(List<Vector3> verts, List<int> indices, Vector3 position)

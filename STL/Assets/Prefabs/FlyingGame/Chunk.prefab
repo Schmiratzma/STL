@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8c3895aebd9314982c5e26c5e9a73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StationPrefab: {fileID: 0}
+  StationPrefab: {fileID: 4063921906360954980, guid: d68e2cbbe6570b940b588c318afc0307,
+    type: 3}
 --- !u!33 &3138518144162620962
 MeshFilter:
   m_ObjectHideFlags: 0

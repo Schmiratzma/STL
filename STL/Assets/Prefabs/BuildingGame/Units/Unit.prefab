@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1509860108364729193}
   - component: {fileID: -7526726793560744746}
   - component: {fileID: 6480625457269455941}
+  - component: {fileID: 4871874417188303929}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -50,6 +51,9 @@ MonoBehaviour:
     ID: 1
     currentLocation: {x: 0, y: 0, z: 0}
     targetLocation: {x: 0, y: 0, z: 0}
+  selectedMaterial: {fileID: 2100000, guid: 09d4dd04a0c052c4bb9b9c68220d7dd5, type: 2}
+  unSelectedMaterial: {fileID: 2100000, guid: 729d01d748475544eb95b22ba7142512, type: 2}
+  meshRenderer: {fileID: 2297153981273163767}
 --- !u!195 &6480625457269455941
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -72,6 +76,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &4871874417188303929
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859417437000179617}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &585666696246451059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +185,12 @@ PrefabInstance:
 --- !u!4 &1128729760469793944 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 053b5a01f5847bc45823291558b214c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 585666696246451059}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2297153981273163767 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 053b5a01f5847bc45823291558b214c3,
     type: 3}
   m_PrefabInstance: {fileID: 585666696246451059}
   m_PrefabAsset: {fileID: 0}

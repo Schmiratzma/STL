@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR;
+using System.Linq;
 
 public enum ChunkDirections
 {
@@ -39,7 +40,7 @@ public class WorldManager : MonoBehaviour
 
     [SerializeField] public Chunk ChunkPrefab;
 
-    public Dictionary<ChunkDirections, Chunk> Chunks;
+    public Dictionary<Vector3Int, Chunk> Chunks;
 
     private void Awake()
     {
@@ -57,7 +58,7 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Chunks = new Dictionary<ChunkDirections, Chunk>();
+        Chunks = new Dictionary<Vector3Int, Chunk>();
         worldSettings.MakeNoise();
 
         //mby also get noise idk yet
@@ -79,73 +80,207 @@ public class WorldManager : MonoBehaviour
                 for (int x = -1; x <= 1; x++)
                 {
                     Chunk newChunk = Instantiate(ChunkPrefab, transform);
-                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)));
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)),false);
 
-                    Chunks.Add((ChunkDirections)chungus, newChunk);
-                    Debug.Log((ChunkDirections)chungus);
-                    chungus++;  
+                    Chunks.Add(new Vector3Int(x, y, z), newChunk);
+
+                    //Chunks.Add((ChunkDirections)chungus, newChunk);
+                    Debug.Log(new Vector3Int(x, y, z));
+                    chungus++;
                     //GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)));
                 }
             }
         }
+        List<Chunk> toRemove = Chunks.Where(kvp => kvp.Key.x < 0).Select(kvp => kvp.Value).ToList();
     }
 
-    public void GenerateChunk(Vector3 centerPosition)
+    public void UpdateChunks(Vector3 shipPosition)
     {
-        int width = ChunkDimensions.x;
-        int height = ChunkDimensions.y;
-        int depth = ChunkDimensions.z;
+        Dictionary<Vector3Int, Chunk> currentChunks = Chunks;
+        Dictionary<Vector3Int, Chunk> newChunks = new Dictionary<Vector3Int, Chunk>();
+        Chunk centerChunk = currentChunks[Vector3Int.zero];
+        Vector3 centerChunkCenterPosition = centerChunk.transform.position;
+        float xDelta = shipPosition.x - centerChunkCenterPosition.x;
+        float yDelta = shipPosition.y - centerChunkCenterPosition.y;
+        float zDelta = shipPosition.z - centerChunkCenterPosition.z;
 
-        Vector3 position = new Vector3(-width / 2, -height / 2, -depth / 2)/*-(centerPosition-ChunkDimensions/2)*/;
-
-        VoxelArray voxels = new VoxelArray(width, height, depth);
-        for (int x = 0; x < width; x++)
+        //ship moved to the right
+        if (shipPosition.x > centerChunk.transform.position.x + ChunkDimensions.x / 2)
         {
-            for (int y = 0; y < height; y++)
+            foreach(KeyValuePair<Vector3Int , Chunk> kvp in currentChunks)
             {
-                for (int z = 0; z < depth; z++)
+                if(kvp.Key.x < 0)
                 {
-                    float u = Mathf.Lerp(-width / 2, width / 2, x / ((float)width));
-                    float v = Mathf.Lerp(-height / 2, height / 2, y / ((float)height));
-                    float w = Mathf.Lerp(-depth / 2, depth / 2, z / ((float)depth));
-
-                    voxels[x, y, z] = worldSettings.GetNoise(new Vector3(u, v, w) + centerPosition);
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.left, kvp.Value);
                 }
             }
+
+            for(int y = -1; y <=1; y++)
+            {
+                for(int z = -1; z <=1; z++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(ChunkDimensions.x - 1, y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position,true);
+                    newChunks.Add(new Vector3Int(1,y,z), newChunk);
+                }
+            }
+
+            Chunks.Clear();
+            Chunks = newChunks; 
         }
 
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> triangles = new List<int>();
+        //ship moved to the left
+        if (shipPosition.x < centerChunk.transform.position.x - ChunkDimensions.x / 2)
+        {
+            foreach (KeyValuePair<Vector3Int, Chunk> kvp in currentChunks)
+            {
+                if (kvp.Key.x > 0)
+                {
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.right, kvp.Value);
+                }
+            }
 
-        marching.Generate(voxels.Voxels, vertices, triangles);
-        CreateMesh32(vertices, triangles, centerPosition);
-    }
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(-1 * ChunkDimensions.x - 1, y * (ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position, true);
+                    newChunks.Add(new Vector3Int(-1, y, z), newChunk);
+                }
+            }
 
-    private void CreateMesh32(List<Vector3> verts, List<int> indices, Vector3 position)
-    {
-        Mesh mesh = new Mesh();
-        mesh.indexFormat = IndexFormat.UInt32;
-        mesh.SetVertices(verts);
-        mesh.SetTriangles(indices, 0);
-        mesh.RecalculateNormals();
+            Chunks.Clear();
+            Chunks = newChunks;
+        }
 
-        mesh.RecalculateBounds();
+        //ship moved up
+        if (shipPosition.y > centerChunk.transform.position.y + ChunkDimensions.y / 2)
+        {
+            foreach (KeyValuePair<Vector3Int, Chunk> kvp in currentChunks)
+            {
+                if (kvp.Key.y < 0)
+                {
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.down, kvp.Value);
+                }
+            }
 
-        GameObject go = new GameObject("Mesh");
-        go.transform.parent = transform;
-        go.AddComponent<MeshFilter>();
-        go.AddComponent<MeshRenderer>();
-        go.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.Off;
-        go.GetComponent<Renderer>().material = material;
-        go.GetComponent<MeshFilter>().mesh = mesh;
-        go.transform.localPosition = position;
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), 1*(ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position, true);
+                    newChunks.Add(new Vector3Int(x, 1, z), newChunk);
+                }
+            }
 
-        meshes.Add(go);
+            Chunks.Clear();
+            Chunks = newChunks;
+        }
+
+        //ship moved down
+        if (shipPosition.y < centerChunk.transform.position.y - ChunkDimensions.y / 2)
+        {
+            foreach (KeyValuePair<Vector3Int, Chunk> kvp in currentChunks)
+            {
+                if (kvp.Key.y > 0)
+                {
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.up, kvp.Value);
+                }
+            }
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), -1*(ChunkDimensions.y - 1), z * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position, true);
+                    newChunks.Add(new Vector3Int(x, -1, z), newChunk);
+                }
+            }
+
+            Chunks.Clear();
+            Chunks = newChunks;
+
+        }
+        //ship moved forward
+        if (shipPosition.z > centerChunk.transform.position.z + ChunkDimensions.z / 2)
+        {
+            foreach (KeyValuePair<Vector3Int, Chunk> kvp in currentChunks)
+            {
+                if (kvp.Key.z < 0)
+                {
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.back, kvp.Value);
+                }
+            }
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), 1 * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position, true);
+                    newChunks.Add(new Vector3Int(x, y, 1), newChunk);
+                }
+            }
+
+            Chunks.Clear();
+            Chunks = newChunks;
+        }
+
+        //ship moved back
+        if (shipPosition.z < centerChunk.transform.position.z - ChunkDimensions.z / 2)
+        {
+            foreach (KeyValuePair<Vector3Int, Chunk> kvp in currentChunks)
+            {
+                if (kvp.Key.z > 0)
+                {
+                    Destroy(kvp.Value.gameObject);
+                }
+                else
+                {
+                    newChunks.Add(kvp.Key + Vector3Int.forward, kvp.Value);
+                }
+            }
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    Chunk newChunk = Instantiate(ChunkPrefab, transform);
+                    newChunk.GenerateChunk(new Vector3(x * (ChunkDimensions.x - 1), y * (ChunkDimensions.y - 1), -1 * (ChunkDimensions.z - 1)) + newChunks[Vector3Int.zero].transform.position, true);
+                    newChunks.Add(new Vector3Int(x, y, -1), newChunk);
+                }
+            }
+
+            Chunks.Clear();
+            Chunks = newChunks;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 }

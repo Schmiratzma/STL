@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbf656c69d8a5540b2041cb41ec205e, type: 3}
+  m_Name: ChangeFlightEffect
+  m_EditorClassIdentifier: 
+  shipDataSO: {fileID: 11400000, guid: 696ad22814668a547835f146954f491c, type: 2}
+  statChangeList:
+  - Category: 0
+    amount: 5
+    weight: 1
+  - Category: 1
+    amount: 5
+    weight: 1
+  - Category: 2
+    amount: 5
+    weight: 1
+  - Category: 3
+    amount: 1
+    weight: 1
+  - Category: 0
+    amount: 10
+    weight: 2
+  - Category: 1
+    amount: 10
+    weight: 2
+  - Category: 2
+    amount: 10
+    weight: 2
+  - Category: 3
+    amount: 2
+    weight: 2
+  - Category: 0
+    amount: 15
+    weight: 3
+  - Category: 1
+    amount: 15
+    weight: 3
+  - Category: 2
+    amount: 15
+    weight: 3
+  - Category: 3
+    amount: 3
+    weight: 3
+  weigtSumm: 5

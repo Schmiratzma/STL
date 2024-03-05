@@ -30,10 +30,10 @@ public class UIManager : MonoBehaviour
         switch (ressource)
         {
             case Ressource.Minerals:
-                CreditsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Credits).ToString();
+                MineralsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Minerals).ToString();
                 break;
             case Ressource.Credits:
-                MineralsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Minerals).ToString();
+                CreditsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Credits).ToString();
                 break; ;
         }
     }

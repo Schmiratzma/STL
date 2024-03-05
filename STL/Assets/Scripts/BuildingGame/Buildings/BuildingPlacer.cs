@@ -38,6 +38,7 @@ public class BuildingPlacer : MonoBehaviour
 
     public void SetBuildingToPlace(Building building)
     {
+        Debug.Log("I set my Building");
         BuildingToPlace = building;
         groundPlane = new Plane(Vector3.up, 0);
 

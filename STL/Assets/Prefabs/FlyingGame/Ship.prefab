@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b976dc2363886a4ab966a8f8bc47f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipData: {fileID: 11400000, guid: 696ad22814668a547835f146954f491c, type: 2}
   pitchSpeed: 50
   rollSpeed: 50
   yawSpeed: 50
@@ -209,13 +210,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5669051687504557595}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.07440108, y: -0, z: -0, w: 0.99722844}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4544522011270189626}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 8.534, y: 0, z: 0}
 --- !u!108 &2995896391565860258
 Light:
   m_ObjectHideFlags: 0
@@ -228,7 +229,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.93917054, g: 0.83, b: 1, a: 1}
-  m_Intensity: 10
+  m_Intensity: 100
   m_Range: 30
   m_SpotAngle: 117.58411
   m_InnerSpotAngle: 58.46484

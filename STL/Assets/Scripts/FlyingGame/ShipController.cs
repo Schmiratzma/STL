@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    [SerializeField] public ShipDataSO shipData;
+
     [SerializeField] float pitchSpeed = 10f; // rotation around X Axis
     [SerializeField] float rollSpeed = 10f; // rotation around Y Axis
     [SerializeField] float yawSpeed = 10f; // rotation around Z Axis
@@ -18,6 +20,11 @@ public class ShipController : MonoBehaviour
     {
         chunkDimensions = WorldManager.Instance.ChunkDimensions;
         rb = GetComponent<Rigidbody>();
+
+        pitchSpeed = shipData.pitchSpeed;
+        rollSpeed = shipData.rollSpeed;
+        yawSpeed = shipData.yawSpeed;
+        flySpeed = shipData.flySpeed;
     }
 
     // Update is called once per frame

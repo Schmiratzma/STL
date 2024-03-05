@@ -14,6 +14,11 @@ public class SaveLoad : MonoBehaviour
     [SerializeField] List<Building> buildingPrefabs;
     [SerializeField] List<Unit> unitPrefabs;
 
+    private void Start()
+    {
+        Load();
+    }
+
     public void Save()
     {
         saveData = new SaveGameData();
@@ -114,7 +119,7 @@ public class SaveLoad : MonoBehaviour
 
     private string getSavePath()
     {
-        return Path.Combine(Application.persistentDataPath, "SaveGames", "SaveGame.json");
+        return Path.Combine(Application.persistentDataPath,"SaveGame.json");
     }
 
 }

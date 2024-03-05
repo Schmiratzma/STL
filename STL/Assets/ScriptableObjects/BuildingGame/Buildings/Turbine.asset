@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b508eda34b03413498b6f731645f9159, type: 3}
-  m_Name: Storage
+  m_Name: Turbine
   m_EditorClassIdentifier: 
-  buildingName: Storage
-  BuildingImage: {fileID: 21300000, guid: 6fa0a3463470db64d85ca611ca311714, type: 3}
+  buildingName: Turbine
+  BuildingImage: {fileID: 21300000, guid: edea9722b2aa76e48a5d338ad558ff87, type: 3}
   costs:
   - resource: 0
-    amount: 5
-  - resource: 1
-    amount: 5
-  buildingPrefab: {fileID: 7272326486172463595, guid: a18277f5ccebb1b4ba95610a3e40d0c4,
+    amount: 25
+  buildingPrefab: {fileID: 7272326486172463595, guid: 71f99d4913b07af469d97a7712a01ea3,
     type: 3}
-  onPlacementEffects: []
+  onPlacementEffects:
+  - {fileID: 11400000, guid: 8f4b83d3c5100614199c3d410d4ab0e6, type: 2}

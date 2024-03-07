@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,14 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] TMP_Text CreditsCount;
     [SerializeField] TMP_Text MineralsCount;
+
+    [SerializeField] float RessourceTweenDuration;
+    [SerializeField] float RessourceTweenStrength;
+    [SerializeField] int RessourceTweenVirbatio;
+
+    [SerializeField] Ease ease;
+
+
 
     private void Awake()
     {
@@ -25,16 +34,29 @@ public class UIManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        UpdateCompleteInventoryUI();
+    }
+
     public void UpdateInventoryUI(Ressource ressource)
     {
+        TMP_Text myText = null;
+
         switch (ressource)
         {
             case Ressource.Minerals:
-                MineralsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Minerals).ToString();
+                myText = MineralsCount;
+                MineralsCount.text = "" + GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Minerals).ToString() + " / " + GameManager.Instance.playerInventory.GetCapacity(Ressource.Minerals);
                 break;
             case Ressource.Credits:
-                CreditsCount.text = GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Credits).ToString();
+                myText = CreditsCount;
+                CreditsCount.text = "" + GameManager.Instance.playerInventory.GetRessourceAmount(Ressource.Credits).ToString() + " / " + GameManager.Instance.playerInventory.GetCapacity(Ressource.Credits);
                 break; ;
+        }
+        if(myText != null)
+        {
+            myText.transform.DOPunchRotation(Vector3.back * RessourceTweenStrength, RessourceTweenDuration);
         }
     }
 

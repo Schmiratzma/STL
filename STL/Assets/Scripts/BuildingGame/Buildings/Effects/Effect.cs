@@ -7,4 +7,6 @@ public abstract class Effect: ScriptableObject
     public abstract void TriggerEffect();
 
     public abstract string RetrieveEffectToolTip();
+
+    public abstract void GenerateNewEffectValues();
 }

@@ -106,4 +106,9 @@ public class ChangeFlightEffect : Effect
         }
         return result;
     }
+
+    public override void GenerateNewEffectValues()
+    {
+        createEffect();
+    }
 }

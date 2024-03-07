@@ -9,6 +9,11 @@ public class SpawnUnitEffect : Effect
 
     [SerializeField] int Amount;
 
+    public override void GenerateNewEffectValues()
+    {
+        //lol
+    }
+
     public override string RetrieveEffectToolTip()
     {
         return "Powerstation spawns a new Drone.";

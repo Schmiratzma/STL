@@ -28,11 +28,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void ChangeAmount(Ressource ressource, int amount)
     {
-        foreach(InventoryEntry entry in inventoryEntries)
+        foreach (InventoryEntry entry in inventoryEntries)
         {
-            if(ressource == entry.RessourceType)
+            if (ressource == entry.RessourceType)
             {
-                entry.amount += amount;
+                if (entry.amount + amount > entry.Capacity)
+                {
+                    entry.amount = entry.Capacity;
+                }
+                else
+                {
+                    entry.amount += amount;
+                }
+
                 return;
             }
         }
@@ -41,12 +49,37 @@ public class PlayerInventory : MonoBehaviour
 
     public void restartInventory(List<InventoryEntry> newInventoryEntries)
     {
-        if(inventoryEntries == null)
+        if (inventoryEntries == null)
         {
             inventoryEntries = new List<InventoryEntry>();
         }
         inventoryEntries.Clear();
         inventoryEntries.AddRange(newInventoryEntries);
+    }
+
+    public void ChangeCapacity(Ressource ressource, int capacity)
+    {
+        foreach (InventoryEntry entry in inventoryEntries)
+        {
+            if (entry.RessourceType == ressource)
+            {
+                entry.Capacity += capacity;
+            }
+        }
+        UIManager.Instance.UpdateCompleteInventoryUI();
+    }
+
+    public int GetCapacity(Ressource ressource)
+    {
+        foreach(InventoryEntry entry in inventoryEntries)
+        {
+            if(entry.RessourceType == ressource)
+            {
+                return entry.Capacity;
+            }
+        }
+        Debug.LogWarning("no Entry of this Ressource found to return a capacity for it.");
+        return 0;
     }
 
 }

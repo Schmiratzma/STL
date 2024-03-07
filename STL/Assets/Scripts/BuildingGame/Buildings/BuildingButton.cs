@@ -29,6 +29,13 @@ public class BuildingButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     void Start()
     {
         GetComponent<Image>().sprite = buildingData.BuildingImage;
+        if(buildingData.onPlacementEffects != null)
+        {
+            foreach(Effect effect in buildingData.onPlacementEffects)
+            {
+                effect.GenerateNewEffectValues();
+            }
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
